@@ -1,0 +1,12 @@
+fastapi
+uvicorn 
+httpx
+python-dotenv
+aiocache[redis]==0.12.3
+jinja2
+python-multipart
+bcrypt
+cryptography
+aiohttp
+fastapi-utils
+typing-inspect

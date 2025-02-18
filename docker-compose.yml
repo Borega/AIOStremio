@@ -1,0 +1,109 @@
+services:
+
+  debridproxy:
+    build: .
+    container_name: debridproxy
+    volumes:
+      - .:/app
+    ports:
+      - "8469:8469"
+    env_file:
+      - .env
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    cap_add:
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+      - CHOWN
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8469"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      redis:
+        condition: service_healthy
+    mem_limit: 4G
+
+  redis:
+    image: redis:alpine
+    container_name: debridproxy_redis
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}", "--appendonly", "yes"]
+    volumes:
+      - ./docker-data/redis_data:/data
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    cap_add:
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+      - CHOWN
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 1G
+
+  mediaflow:
+    image: mhdzumair/mediaflow-proxy
+    container_name: debridproxy_mediaflow
+    ports:
+      - "8888:8888"
+    environment:
+      - API_PASSWORD=${MEDIAFLOW_API_KEY}
+      - ENABLE_STREAMING_PROGRESS=${MEDIAFLOW_STREAMING_PROGRESS}
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    cap_add:
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+      - CHOWN
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 2G
+
+  phpredisadmin:
+    container_name: debridproxy_phpredisadmin
+    image: erikdubbelboer/phpredisadmin
+    restart: unless-stopped
+    ports:
+      - "5080:80"
+    env_file:
+      - .env
+    environment:
+      - REDIS_1_HOST=debridproxy_redis
+      - REDIS_1_PORT=6379
+      - REDIS_1_AUTH=${REDIS_PASSWORD}
+      - ADMIN_USER=${ADMIN_USERNAME}
+      - ADMIN_PASS=${ADMIN_PASSWORD}
+    mem_limit: 512M
