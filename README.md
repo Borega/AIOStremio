@@ -1,8 +1,5 @@
 # AIOStremio
 
-[![commit activity](https://img.shields.io/github/commit-activity/m/stekc/aiostremio)](https://github.com/stekc/aiostremio/commits)
-[![last commit](https://img.shields.io/github/last-commit/stekc/aiostremio)](https://github.com/stekc/aiostremio/commits)
-[![chat](https://img.shields.io/discord/1178091792504201357?logo=discord&logoColor=white)](https://discord.gg/MkCvXWjeAx)
 
 [![Stremio](https://img.shields.io/badge/Stremio-mediumpurple)](https://stremio.com/)
 [![Vidi](https://img.shields.io/badge/Vidi-black)](https://vidi.plomo.se/)
@@ -10,7 +7,7 @@
 
 AIOStremio combines your favorite Stremio addons into one. Easily sync your setup with friends—changes update for all users without any reconfiguration on their end.
 
-(Note: Not all services allow account sharing, and it may lead to a ban. Consider using [TorBox](https://torbox.app/subscription?referral=fe897519-fa8d-402d-bdb6-15570c60eff2) (referral link), which allows account sharing.)
+(Note: Not all services allow account sharing, and it may lead to a ban. Consider using [TorBox](https://torbox.app/subscription?referral=ff681eb2-ca00-47dc-a48d-1a8c6587679b) (referral link), which allows account sharing.)
 
 ![Stremio, Android TV, custom formatting applied](https://i.ibb.co/fxgjs5D/simple-on-bestpres-on.png)
 <small>*Stremio, on Android TV, with custom formatting applied*</small>
@@ -70,7 +67,7 @@ Requirements:
 - Docker
 - Reverse proxy (https://caddyserver.com/docs/quick-starts/reverse-proxy)
 
-1. Clone the repo: `git clone https://github.com/stekc/AIOStremio`
+1. Clone the repo: `git clone https://github.com/Borega/AIOStremio.git`
 2. Copy and rename .env.example to .env and fill out the required fields:
 
 Create an admin account that will be used to add new users and toggle proxy streams:
